@@ -1,0 +1,8 @@
+I/GSYGithubAppKotlin: LocalAIDLTransferService send Result pid26615 Thread[pool-3-thread-2,5,main]
+I/GSYGithubAppKotlin: base64Str login aGVpbmlrYTpjaGVubGlqaW4xMjM=
+D/OkHttp: --> POST https://api.github.com/authorizations
+D/OkHttp: Content-Type: application/json; charset=UTF-8
+D/OkHttp: Content-Length: 176
+D/OkHttp: Accept: application/json
+D/OkHttp: {"client_id":"1c8674b18b92b699f894","client_secret":"a90ee4fd7d248e3093694c2c10748ffd3d23e029","note":"com.shuyu.github.kotlin","scopes":["user","repo","gist","notifications"]}
+D/OkHttp: --> END POST (176-byte body)
