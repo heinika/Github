@@ -4,7 +4,15 @@ import java.util.*
 
 class LoginRequestModel {
     val scopes: List<String> = Arrays.asList("user", "repo", "gist", "notifications")
-    val note:String = "com.heinika.github"
-    val clientId:String = "1c8674b18b92b699f894"
-    val clientSecret: String = "a90ee4fd7d248e3093694c2c10748ffd3d23e029"
+    var note:String? = null
+    var clientId:String? = null
+    var clientSecret: String? = null
+
+    fun generate() : LoginRequestModel{
+        val loginRequestModel = LoginRequestModel()
+        loginRequestModel.note = BuildConfig.APPLICATION_ID
+        loginRequestModel.clientId = BuildConfig.CLIENT_ID
+        loginRequestModel.clientSecret = BuildConfig.CLIENT_SECRET
+        return loginRequestModel
+    }
 }
