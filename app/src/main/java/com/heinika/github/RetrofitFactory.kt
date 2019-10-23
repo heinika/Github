@@ -39,7 +39,9 @@ class RetrofitFactory private constructor() {
                 return mRetrofitFactory!!
             }
 
-
+        fun getGithubApiService():GithubApiServices{
+            return RetrofitFactory.instance.retrofit.create(GithubApiServices::class.java)
+        }
     }
 
 

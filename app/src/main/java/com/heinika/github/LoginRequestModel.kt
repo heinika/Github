@@ -1,14 +1,19 @@
 package com.heinika.github
 
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import java.util.*
 
+@JsonClass(generateAdapter = true)
 class LoginRequestModel {
-    val scopes: List<String> = Arrays.asList("user", "repo", "gist", "notifications")
-    var note:String? = null
-    var clientId:String? = null
+    val scopes: List<String>? = Arrays.asList("user", "repo", "gist", "notifications")
+    var note: String? = null
+    @Json(name = "client_id")
+    var clientId: String? = null
+    @Json(name = "client_secret")
     var clientSecret: String? = null
 
-    fun generate() : LoginRequestModel{
+    fun generate(): LoginRequestModel {
         val loginRequestModel = LoginRequestModel()
         loginRequestModel.note = BuildConfig.APPLICATION_ID
         loginRequestModel.clientId = BuildConfig.CLIENT_ID

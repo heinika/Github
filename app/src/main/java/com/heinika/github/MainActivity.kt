@@ -12,6 +12,9 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.anko.toast
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.IOException
@@ -26,10 +29,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
-
-
 
         buttonLogin.setOnClickListener {
             val username = editTextUserName.text
@@ -47,13 +46,20 @@ class MainActivity : AppCompatActivity() {
 
             val type = "$username:$password"
             val base64 = Base64.encodeToString(type.toByteArray(), Base64.NO_WRAP).replace("\\+", "%2B")
-            val postBody: String =
-                "{\"client_id\":\"1c8674b18b92b699f894\",\"client_secret\":\"a90ee4fd7d248e3093694c2c10748ffd3d23e029\",\"note\":\"com.heinika.github\",\"scopes\":[\"user\",\"repo\",\"gist\",\"notifications\"]}".trimMargin()
-            val request = Request.Builder().url("https://api.github.com/authorizations")
-                .header("Accept", "application/json")
-                .header("Authorization", "Basic $base64")
-                .post(postBody.toRequestBody(MEDIA_TYPE_JSON))
-                .build()
+            val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+            val jsonAdapter = moshi.adapter(LoginRequestModel::class.java)
+            val postBody = jsonAdapter.toJson(LoginRequestModel().generate()).toString().toRequestBody()
+            val githubApiServices = RetrofitFactory.getGithubApiService()
+            githubApiServices.getToken("Basic $base64",postBody).enqueue(object : Callback<String> {
+                override fun onFailure(call: Call<String>, t: Throwable) {
+
+                }
+
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    Log.i("MainActivity",response.body())
+                }
+            })
         }
     }
 }
+
