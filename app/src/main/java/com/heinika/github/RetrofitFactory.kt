@@ -29,7 +29,7 @@ class RetrofitFactory private constructor() {
         @Volatile
         private var mRetrofitFactory: RetrofitFactory? = null
 
-        val instance: RetrofitFactory
+        private val instance: RetrofitFactory
             get() {
                 if (mRetrofitFactory == null) {
                     synchronized(RetrofitFactory::class.java) {
@@ -40,7 +40,7 @@ class RetrofitFactory private constructor() {
             }
 
         fun getGithubApiService():GithubApiServices{
-            return RetrofitFactory.instance.retrofit.create(GithubApiServices::class.java)
+            return instance.retrofit.create(GithubApiServices::class.java)
         }
     }
 

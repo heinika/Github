@@ -50,13 +50,13 @@ class MainActivity : AppCompatActivity() {
             val jsonAdapter = moshi.adapter(LoginRequestModel::class.java)
             val postBody = jsonAdapter.toJson(LoginRequestModel().generate()).toString().toRequestBody()
             val githubApiServices = RetrofitFactory.getGithubApiService()
-            githubApiServices.getToken("Basic $base64",postBody).enqueue(object : Callback<String> {
-                override fun onFailure(call: Call<String>, t: Throwable) {
-
+            githubApiServices.getToken("Basic $base64",postBody).enqueue(object : Callback<TokenResultModel> {
+                override fun onFailure(call: Call<TokenResultModel>, t: Throwable) {
+                    Log.i("MainActivity",t.toString())
                 }
 
-                override fun onResponse(call: Call<String>, response: Response<String>) {
-                    Log.i("MainActivity",response.body())
+                override fun onResponse(call: Call<TokenResultModel>, response: Response<TokenResultModel>) {
+                    Log.i("MainActivity", response.body()!!.hashed_token)
                 }
             })
         }

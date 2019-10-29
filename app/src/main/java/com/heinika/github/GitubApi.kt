@@ -8,5 +8,5 @@ import retrofit2.http.POST
 
 interface GithubApiServices {
     @POST("authorizations")
-    fun getToken(@Header("Authorization") basePassword: String, @Body requestBody: RequestBody): Call<String>
+    fun getToken(@Header("Authorization") basePassword: String, @Body requestBody: RequestBody): Call<TokenResultModel>
 }
