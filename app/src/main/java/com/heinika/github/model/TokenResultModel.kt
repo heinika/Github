@@ -1,4 +1,4 @@
-package com.heinika.github
+package com.heinika.github.model
 
 import com.squareup.moshi.JsonClass
 

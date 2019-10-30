@@ -1,5 +1,6 @@
-package com.heinika.github
+package com.heinika.github.model
 
+import com.heinika.github.BuildConfig
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import java.util.*
@@ -17,7 +18,8 @@ class LoginRequestModel {
         val loginRequestModel = LoginRequestModel()
         loginRequestModel.note = BuildConfig.APPLICATION_ID
         loginRequestModel.clientId = BuildConfig.CLIENT_ID
-        loginRequestModel.clientSecret = BuildConfig.CLIENT_SECRET
+        loginRequestModel.clientSecret =
+            BuildConfig.CLIENT_SECRET
         return loginRequestModel
     }
 }

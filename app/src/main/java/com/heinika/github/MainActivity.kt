@@ -4,20 +4,18 @@ import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.heinika.github.model.LoginRequestModel
+import com.heinika.github.model.TokenResultModel
+import com.heinika.github.model.UserModel
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
-import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,20 +43,40 @@ class MainActivity : AppCompatActivity() {
             }
 
             val type = "$username:$password"
-            val base64 = Base64.encodeToString(type.toByteArray(), Base64.NO_WRAP).replace("\\+", "%2B")
+            val base64 =
+                Base64.encodeToString(type.toByteArray(), Base64.NO_WRAP).replace("\\+", "%2B")
             val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
             val jsonAdapter = moshi.adapter(LoginRequestModel::class.java)
-            val postBody = jsonAdapter.toJson(LoginRequestModel().generate()).toString().toRequestBody()
+            val postBody =
+                jsonAdapter.toJson(LoginRequestModel().generate()).toString().toRequestBody()
             val githubApiServices = RetrofitFactory.getGithubApiService()
-            githubApiServices.getToken("Basic $base64",postBody).enqueue(object : Callback<TokenResultModel> {
-                override fun onFailure(call: Call<TokenResultModel>, t: Throwable) {
-                    Log.i("MainActivity",t.toString())
-                }
+            githubApiServices.getToken("Basic $base64", postBody)
+                .enqueue(object : Callback<TokenResultModel> {
+                    override fun onFailure(call: Call<TokenResultModel>, t: Throwable) {
+                        Log.i("MainActivity", t.toString())
+                    }
 
-                override fun onResponse(call: Call<TokenResultModel>, response: Response<TokenResultModel>) {
-                    Log.i("MainActivity", response.body()!!.hashed_token)
-                }
-            })
+                    override fun onResponse(
+                        call: Call<TokenResultModel>,
+                        response: Response<TokenResultModel>
+                    ) {
+                        Log.i("MainActivity", response.body()!!.token)
+                        response.body()!!.token?.let { token ->
+                            githubApiServices.getUser("token $token").enqueue(object : Callback<UserModel> {
+                                override fun onFailure(call: Call<UserModel>, t: Throwable) {
+                                    Log.i("MainActivity", t.toString())
+                                }
+
+                                override fun onResponse(
+                                    call: Call<UserModel>,
+                                    response: Response<UserModel>
+                                ) {
+                                    Log.i("MainActivity", response.body()!!.avatar_url)
+                                }
+                            })
+                        }
+                    }
+                })
         }
     }
 }
