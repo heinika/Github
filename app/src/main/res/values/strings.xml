@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Github</string>
+    <string name="github_logo_content_description">github_logo</string>
 </resources>
