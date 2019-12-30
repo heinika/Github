@@ -2,7 +2,6 @@ package com.heinika.github
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import okhttp3.MediaType.Companion.toMediaType
 
 class MainActivity : AppCompatActivity() {
