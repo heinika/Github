@@ -6,7 +6,6 @@ import okhttp3.MediaType.Companion.toMediaType
 
 class MainActivity : AppCompatActivity() {
 
-
     companion object {
         val MEDIA_TYPE_JSON = "application/json; charset=UTF-8".toMediaType()
     }

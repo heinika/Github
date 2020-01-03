@@ -82,8 +82,10 @@ class LoginFragment : Fragment() {
                                             call: Call<UserModel>,
                                             response: Response<UserModel>
                                         ) {
-                                            NavHostFragment.findNavController(this@LoginFragment).navigate(R.id.action_loginFragment_to_userFragment)
-                                            Log.i("MainActivity", response.body()!!.avatar_url)
+                                            val action =
+                                                LoginFragmentDirections.actionLoginFragmentToUserFragment(response.body()!!.email!!)
+                                            NavHostFragment.findNavController(this@LoginFragment)
+                                                .navigate(action)
                                         }
                                     })
                             }

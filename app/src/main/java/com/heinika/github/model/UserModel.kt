@@ -1,9 +1,9 @@
 package com.heinika.github.model
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
+import com.heinika.github.database.UserEntity
+
+
 data class UserModel(
     val avatar_url: String?,
     val bio: String?,
@@ -43,4 +43,8 @@ data class UserModel(
     val type: String?,
     val updated_at: String?,
     val url: String?
-) : Parcelable
+)
+
+fun UserModel.toUserEntity(userModel: UserModel): UserEntity {
+    return UserEntity(userModel.email, userModel.avatar_url)
+}
