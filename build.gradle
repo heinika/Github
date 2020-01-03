@@ -7,6 +7,7 @@ buildscript {
     ext.rx_android = '2.1.1'
     ext.roomVersion = '2.2.3'
     ext.nav_version = '2.1.0'
+    ext.kotlin_coroutines = '1.3.1'
 
     repositories {
         google()

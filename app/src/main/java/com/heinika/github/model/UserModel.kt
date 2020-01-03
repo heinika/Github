@@ -45,6 +45,6 @@ data class UserModel(
     val url: String?
 )
 
-fun UserModel.toUserEntity(userModel: UserModel): UserEntity {
-    return UserEntity(userModel.email, userModel.avatar_url)
+fun toUserEntity(userModel: UserModel): UserEntity {
+    return UserEntity(userModel.email!!, userModel.avatar_url)
 }

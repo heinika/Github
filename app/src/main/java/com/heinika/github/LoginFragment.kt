@@ -8,13 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import com.heinika.github.database.GithubDatabase
 import com.heinika.github.model.LoginRequestModel
 import com.heinika.github.model.TokenResultModel
 import com.heinika.github.model.UserModel
+import com.heinika.github.model.toUserEntity
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.android.synthetic.main.github_login_fragment.*
 import kotlinx.android.synthetic.main.github_login_fragment.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -82,6 +88,13 @@ class LoginFragment : Fragment() {
                                             call: Call<UserModel>,
                                             response: Response<UserModel>
                                         ) {
+                                            activity?.applicationContext?.let { context ->
+                                                val userEntityDao = GithubDatabase.getDatabase(context).userEntityDao()
+                                                val coroutineScope = CoroutineScope(Job())
+                                                coroutineScope.launch (Dispatchers.IO){
+                                                    userEntityDao.insert(toUserEntity(response.body()!!))
+                                                }
+                                            }
                                             val action =
                                                 LoginFragmentDirections.actionLoginFragmentToUserFragment(response.body()!!.email!!)
                                             NavHostFragment.findNavController(this@LoginFragment)

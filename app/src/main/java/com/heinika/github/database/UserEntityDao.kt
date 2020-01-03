@@ -10,6 +10,6 @@ interface UserEntityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(userEntity: UserEntity)
 
-    @Query(value = "select * from userentity where email == :email ")
-    fun getUserEntityByEmail(email: String)
+    @Query(value = "select * from user_table where email == :email ")
+    fun getUserEntityByEmail(email: String): UserEntity
 }
