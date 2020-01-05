@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -27,6 +28,7 @@
         android:layout_height="wrap_content"
         android:hint="username"
         android:padding="4dp"
+        app:errorContentDescription="hah"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +38,8 @@
             android:id="@+id/editTextUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="heinika" />
+            android:text="heinika"
+            />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -56,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:text="wuliyun920928" />
+            />
 
     </com.google.android.material.textfield.TextInputLayout>
 

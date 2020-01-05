@@ -6,15 +6,17 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.heinika.github.LoginFragment"
+        android:name="com.heinika.github.login.LoginFragment"
         android:label="LoginFragment">
         <action
             android:id="@+id/action_loginFragment_to_userFragment"
-            app:destination="@id/userFragment">
+            app:destination="@id/userFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true">
             <argument
                 android:name="email"
-                app:argType="string"
-                />
+                app:argType="string" />
         </action>
     </fragment>
 

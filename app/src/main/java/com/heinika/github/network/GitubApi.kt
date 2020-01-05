@@ -1,4 +1,4 @@
-package com.heinika.github
+package com.heinika.github.network
 
 import com.heinika.github.model.TokenResultModel
 import com.heinika.github.model.UserModel
@@ -14,5 +14,5 @@ interface GithubApiServices {
     fun getToken(@Header("Authorization") basePassword: String, @Body requestBody: RequestBody): Call<TokenResultModel>
 
     @GET("user")
-    fun getUser(@Header("Authorization") token: String): Call<UserModel>
+    fun getUser(): Call<UserModel>
 }

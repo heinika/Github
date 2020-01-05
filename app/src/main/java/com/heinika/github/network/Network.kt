@@ -1,5 +1,6 @@
-package com.heinika.github
+package com.heinika.github.network
 
+import com.heinika.github.HeaderInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
@@ -9,7 +10,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 const val GITHUB_API_BASE_URL = "https://api.github.com"
 
-class RetrofitFactory private constructor() {
+class Network private constructor() {
 
     private var retrofit: Retrofit
 
@@ -17,7 +18,10 @@ class RetrofitFactory private constructor() {
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        val okHttpClient = OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build()
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(HeaderInterceptor())
+            .build()
         retrofit = Retrofit.Builder()
             .baseUrl(GITHUB_API_BASE_URL)
             .client(okHttpClient)
@@ -27,22 +31,18 @@ class RetrofitFactory private constructor() {
 
     companion object {
         @Volatile
-        private var mRetrofitFactory: RetrofitFactory? = null
+        private var mNetwork: Network? = null
 
-        private val instance: RetrofitFactory
+        private val instance: Network
             get() {
-                if (mRetrofitFactory == null) {
-                    synchronized(RetrofitFactory::class.java) {
-                        mRetrofitFactory = RetrofitFactory()
+                if (mNetwork == null) {
+                    synchronized(Network::class.java) {
+                        mNetwork = Network()
                     }
                 }
-                return mRetrofitFactory!!
+                return mNetwork!!
             }
 
-        fun getGithubApiService():GithubApiServices{
-            return instance.retrofit.create(GithubApiServices::class.java)
-        }
+        val githubApi: GithubApiServices = instance.retrofit.create(GithubApiServices::class.java)
     }
-
-
 }

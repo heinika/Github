@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 @Database(entities = arrayOf(UserEntity::class), version = 1)
 abstract class GithubDatabase : RoomDatabase() {
 
-    abstract fun userEntityDao(): UserEntityDao
+    abstract val userEntityDao: UserEntityDao
 
     companion object {
 
